@@ -1,7 +1,10 @@
+using Bookstore.Module.Core.Areas.Core.Controllers;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+                .AddApplicationPart(typeof(HomeController).Assembly);
 
 var app = builder.Build();
 
@@ -14,18 +17,25 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+
 app.UseRouting();
 
 app.UseAuthorization();
 
 // app.MapStaticAssets();
-app.UseStaticFiles();
-app.UseRouting();
-app.UseAuthorization();
+// app.UseStaticFiles();
+// app.UseRouting();
+// app.UseAuthorization();
+
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}",
+    defaults: new { area = "Core", controller = "Home", action = "Index" });
 // .WithStaticAssets();
 
 
