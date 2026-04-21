@@ -3,7 +3,20 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="text-center mt-4">
-    <h1>Bookstore Management System</h1>
-    <p>Welcome to the modular ASP.NET Core MVC bookstore project.</p>
+<div class="container mt-5">
+    <div class="text-center">
+        <h1 class="display-4 fw-bold">Bookstore Management System</h1>
+        <p class="lead mt-3">
+            Welcome to the modular ASP.NET Core MVC bookstore project.
+        </p>
+        <p class="text-muted">
+            This system is designed to manage books, orders, and users with a modular architecture.
+        </p>
+
+        <div class="mt-4">
+            <a asp-area="Core" asp-controller="Dashboard" asp-action="Index" class="btn btn-dark btn-lg">
+                Go to Dashboard
+            </a>
+        </div>
+    </div>
 </div>

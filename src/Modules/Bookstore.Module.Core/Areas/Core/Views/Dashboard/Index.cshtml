@@ -1,0 +1,47 @@
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-3">Admin Dashboard</h1>
+    <p class="text-muted">This is the starting point for the bookstore management system.</p>
+
+    <div class="row mt-4">
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Catalog</h5>
+                    <p class="card-text">Manage books and categories.</p>
+                    <a asp-area="Catalog" asp-controller="Books" asp-action="Index" class="btn btn-primary disabled">
+                        Go to Catalog
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Orders</h5>
+                    <p class="card-text">Track and process customer orders.</p>
+                    <a asp-area="Orders" asp-controller="Orders" asp-action="Index" class="btn btn-primary disabled">
+                        Go to Orders
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Users</h5>
+                    <p class="card-text">Manage accounts and roles.</p>
+                    <a asp-area="Users" asp-controller="Users" asp-action="Index" class="btn btn-primary disabled">
+                        Go to Users
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
