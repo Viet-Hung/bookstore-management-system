@@ -1,0 +1,50 @@
+@model List<Bookstore.Module.Catalog.Models.Book>
+
+@{
+    ViewData["Title"] = "Books";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Books</h1>
+        <a href="#" class="btn btn-primary disabled">Add New Book</a>
+    </div>
+
+    <p class="text-muted">Catalog management module - sample book list.</p>
+
+    <table class="table table-bordered table-striped mt-3">
+        <thead class="table-light">
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Price</th>
+                <th>Stock Quantity</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in Model)
+            {
+                <tr>
+                    <td>@book.Id</td>
+                    <td>@book.Title</td>
+                    <td>@book.Author</td>
+                    <td>$@book.Price</td>
+                    <td>@book.StockQuantity</td>
+                    <td>
+                        @if (book.IsActive)
+                        {
+                            <span class="badge bg-success">Active</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">Inactive</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

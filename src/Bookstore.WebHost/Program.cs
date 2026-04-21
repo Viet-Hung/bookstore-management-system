@@ -1,10 +1,12 @@
+using Bookstore.Module.Catalog.Areas.Catalog.Controllers;
 using Bookstore.Module.Core.Areas.Core.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews()
-                .AddApplicationPart(typeof(HomeController).Assembly);
+                .AddApplicationPart(typeof(HomeController).Assembly)
+                .AddApplicationPart(typeof(BooksController).Assembly);
 
 var app = builder.Build();
 
