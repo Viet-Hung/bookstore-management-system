@@ -171,5 +171,19 @@ namespace Bookstore.Module.Catalog.Areas.Catalog.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public IActionResult Deactivate(int id)
+        {
+            var book = _bookService.GetById(id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            _bookService.DeactivateBook(id);
+
+            return RedirectToAction("Index");
+        }
     }
 }

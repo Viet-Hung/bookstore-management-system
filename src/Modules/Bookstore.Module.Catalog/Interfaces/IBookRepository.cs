@@ -9,5 +9,6 @@ namespace Bookstore.Module.Catalog.Interfaces
         void Add(Book book);
         Book? GetById(int id);
         void Update(Book book);
+        void Deactivate(int id);
     }
 }

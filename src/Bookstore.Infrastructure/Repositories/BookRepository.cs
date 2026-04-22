@@ -45,5 +45,18 @@ namespace Bookstore.Infrastructure.Repositories
             _context.Books.Update(book);
             _context.SaveChanges();
         }
+
+        public void Deactivate(int id)
+        {
+            var book = _context.Books.FirstOrDefault(x => x.Id == id);
+
+            if (book == null)
+            {
+                return;
+            }
+
+            book.IsActive = false;
+            _context.SaveChanges();
+        }
     }
 }

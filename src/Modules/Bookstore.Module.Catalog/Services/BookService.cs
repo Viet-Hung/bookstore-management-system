@@ -36,5 +36,10 @@ namespace Bookstore.Module.Catalog.Services
         {
             _bookRepository.Update(book);
         }
+
+        public void DeactivateBook(int id)
+        {
+            _bookRepository.Deactivate(id);
+        }
     }
 }
