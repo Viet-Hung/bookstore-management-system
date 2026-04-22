@@ -1,4 +1,4 @@
-# bookstore-management-system
+# Bookstore-management-system
 
 Modular ASP.NET Core MVC bookstore management system demonstrating clean architecture, layered design, and real-world backend practices.
 
