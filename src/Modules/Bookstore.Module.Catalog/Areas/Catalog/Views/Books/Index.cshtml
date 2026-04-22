@@ -18,22 +18,57 @@
     <form method="get" asp-area="Catalog" asp-controller="Books" asp-action="Index" class="row g-3 mb-4">
         <div class="col-md-4">
             <label class="form-label">Keyword</label>
-            <input asp-for="Filter.Keyword" class="form-control" placeholder="Search by title or author" />
+            <input name="keyword" value="@Model.Filter.Keyword" class="form-control"
+                   placeholder="Search by title or author" />
         </div>
 
         <div class="col-md-3">
             <label class="form-label">Category</label>
-            <select asp-for="Filter.CategoryId" asp-items="Model.Filter.Categories" class="form-select">
+            <select name="categoryId" class="form-select">
                 <option value="">-- All categories --</option>
+                @foreach (var category in Model.Filter.Categories)
+                {
+                    if (Model.Filter.CategoryId.HasValue && Model.Filter.CategoryId.Value.ToString() == category.Value)
+                    {
+                        <option value="@category.Value" selected>@category.Text</option>
+                    }
+                    else
+                    {
+                        <option value="@category.Value">@category.Text</option>
+                    }
+                }
             </select>
         </div>
 
         <div class="col-md-3">
             <label class="form-label">Status</label>
-            <select asp-for="Filter.IsActive" class="form-select">
-                <option value="">-- All statuses --</option>
-                <option value="true">Active</option>
-                <option value="false">Inactive</option>
+            <select name="isActive" class="form-select">
+                @if (Model.Filter.IsActive == null)
+                {
+                    <option value="" selected>-- All statuses --</option>
+                }
+                else
+                {
+                    <option value="">-- All statuses --</option>
+                }
+
+                @if (Model.Filter.IsActive == true)
+                {
+                    <option value="true" selected>Active</option>
+                }
+                else
+                {
+                    <option value="true">Active</option>
+                }
+
+                @if (Model.Filter.IsActive == false)
+                {
+                    <option value="false" selected>Inactive</option>
+                }
+                else
+                {
+                    <option value="false">Inactive</option>
+                }
             </select>
         </div>
 
