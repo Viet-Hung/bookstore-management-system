@@ -26,5 +26,15 @@ namespace Bookstore.Module.Catalog.Services
         {
             _bookRepository.Add(book);
         }
+
+        public Book? GetById(int id)
+        {
+            return _bookRepository.GetById(id);
+        }
+
+        public void UpdateBook(Book book)
+        {
+            _bookRepository.Update(book);
+        }
     }
 }

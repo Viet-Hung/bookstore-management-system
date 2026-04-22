@@ -46,6 +46,12 @@
                             <span class="badge bg-secondary">Inactive</span>
                         }
                     </td>
+                    <td>
+                        <a asp-area="Catalog" asp-controller="Books" asp-action="Edit" asp-route-id="@book.Id"
+                               class="btn btn-sm btn-warning">
+                            Edit
+                        </a>
+                    </td>
                 </tr>
             }
         </tbody>

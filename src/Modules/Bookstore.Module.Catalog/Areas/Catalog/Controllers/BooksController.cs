@@ -112,5 +112,64 @@ namespace Bookstore.Module.Catalog.Areas.Catalog.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var book = _bookService.GetById(id);
+            if (book == null)
+                return NotFound();
+
+            var categories = _bookService.GetCategories();
+
+            var model = new EditBookViewModel
+            {
+                Id = book.Id,
+                Title = book.Title,
+                Author = book.Author,
+                Price = book.Price,
+                StockQuantity = book.StockQuantity,
+                CategoryId = book.CategoryId,
+                IsActive = book.IsActive,
+                Categories = categories.Select(c => new SelectListItem
+                {
+                    Value = c.Id.ToString(),
+                    Text = c.Name
+                }).ToList()
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(EditBookViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                model.Categories = _bookService.GetCategories()
+                    .Select(c => new SelectListItem
+                    {
+                        Value = c.Id.ToString(),
+                        Text = c.Name
+                    }).ToList();
+
+                return View(model);
+            }
+
+            var book = _bookService.GetById(model.Id);
+            if (book == null)
+                return NotFound();
+
+            book.Title = model.Title;
+            book.Author = model.Author;
+            book.Price = model.Price;
+            book.StockQuantity = model.StockQuantity;
+            book.CategoryId = model.CategoryId;
+            book.IsActive = model.IsActive;
+
+            _bookService.UpdateBook(book);
+
+            return RedirectToAction("Index");
+        }
     }
 }

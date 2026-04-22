@@ -7,5 +7,7 @@ namespace Bookstore.Module.Catalog.Interfaces
         List<Book> GetAll();
         List<Category> GetCategories();
         void Add(Book book);
+        Book? GetById(int id);
+        void Update(Book book);
     }
 }

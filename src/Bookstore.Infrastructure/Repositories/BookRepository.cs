@@ -34,5 +34,16 @@ namespace Bookstore.Infrastructure.Repositories
             _context.Books.Add(book);
             _context.SaveChanges();
         }
+
+        public Book? GetById(int id)
+        {
+            return _context.Books.FirstOrDefault(x => x.Id == id);
+        }
+
+        public void Update(Book book)
+        {
+            _context.Books.Update(book);
+            _context.SaveChanges();
+        }
     }
 }
