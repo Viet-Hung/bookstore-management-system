@@ -1,7 +1,18 @@
+using Bookstore.Infrastructure.Data;
+using Bookstore.Infrastructure.Repositories;
 using Bookstore.Module.Catalog.Areas.Catalog.Controllers;
+using Bookstore.Module.Catalog.Interfaces;
+using Bookstore.Module.Catalog.Services;
 using Bookstore.Module.Core.Areas.Core.Controllers;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<BookstoreDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<IBookService, BookService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews()
@@ -40,5 +51,11 @@ app.MapControllerRoute(
     defaults: new { area = "Core", controller = "Home", action = "Index" });
 // .WithStaticAssets();
 
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<BookstoreDbContext>();
+    dbContext.Database.Migrate();
+    DbInitializer.Seed(dbContext);
+}
 
 app.Run();
