@@ -76,6 +76,16 @@ namespace Bookstore.Module.Catalog.Areas.Catalog.Controllers
         [HttpPost]
         public IActionResult Create(CreateBookViewModel model)
         {
+            if (model.Price <= 0)
+            {
+                ModelState.AddModelError(nameof(model.Price), "Price must be greater than 0.");
+            }
+
+            if (model.StockQuantity < 0)
+            {
+                ModelState.AddModelError(nameof(model.StockQuantity), "Stock quantity cannot be negative.");
+            }
+
             if (!ModelState.IsValid)
             {
                 model.Categories = _bookService.GetCategories()

@@ -10,36 +10,49 @@
 
     <form asp-action="Create" method="post">
         <div class="mb-3">
-            <label>Title</label>
+            <label asp-for="Title" class="form-label"></label>
             <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
-            <label>Author</label>
+            <label asp-for="Author" class="form-label"></label>
             <input asp-for="Author" class="form-control" />
+            <span asp-validation-for="Author" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
-            <label>Category</label>
-            <select asp-for="CategoryId" asp-items="Model.Categories" class="form-control"></select>
+            @* <label>Category</label>
+            <select asp-for="CategoryId" asp-items="Model.Categories" class="form-control"></select> *@
+            <label asp-for="CategoryId" class="form-label">Category</label>
+            <select asp-for="CategoryId" asp-items="Model.Categories" class="form-select">
+                <option value="0">-- Select category --</option>
+            </select>
+            <span asp-validation-for="CategoryId" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
-            <label>Price</label>
+            <label asp-for="Price" class="form-label"></label>
             <input asp-for="Price" class="form-control" />
+            <span asp-validation-for="Price" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
-            <label>Stock Quantity</label>
+            <label asp-for="StockQuantity" class="form-label"></label>
             <input asp-for="StockQuantity" class="form-control" />
+            <span asp-validation-for="StockQuantity" class="text-danger"></span>
         </div>
 
         <div class="form-check mb-3">
             <input asp-for="IsActive" class="form-check-input" />
-            <label class="form-check-label">Active</label>
+            <label asp-for="IsActive" class="form-check-label"></label>
         </div>
 
         <button type="submit" class="btn btn-success">Save</button>
         <a asp-action="Index" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
