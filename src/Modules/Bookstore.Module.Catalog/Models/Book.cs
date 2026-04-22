@@ -15,5 +15,7 @@ namespace Bookstore.Module.Catalog.Models
         public int CategoryId { get; set; }
 
         public bool IsActive { get; set; } = true;
+
+        public Category? Category { get; set; }
     }
 }
