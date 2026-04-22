@@ -1,4 +1,5 @@
-@model List<Bookstore.Module.Catalog.Models.Book>
+@* @model List<Bookstore.Module.Catalog.Models.Book> *@
+@model Bookstore.Module.Catalog.ViewModels.BookListViewModel
 
 @{
     ViewData["Title"] = "Books";
@@ -14,6 +15,34 @@
     @* <p class="text-muted">Catalog management module - sample book list.</p> *@
     <p class="text-muted">Catalog management module - data loaded from SQL Server.</p>
 
+    <form method="get" asp-area="Catalog" asp-controller="Books" asp-action="Index" class="row g-3 mb-4">
+        <div class="col-md-4">
+            <label class="form-label">Keyword</label>
+            <input asp-for="Filter.Keyword" class="form-control" placeholder="Search by title or author" />
+        </div>
+
+        <div class="col-md-3">
+            <label class="form-label">Category</label>
+            <select asp-for="Filter.CategoryId" asp-items="Model.Filter.Categories" class="form-select">
+                <option value="">-- All categories --</option>
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <label class="form-label">Status</label>
+            <select asp-for="Filter.IsActive" class="form-select">
+                <option value="">-- All statuses --</option>
+                <option value="true">Active</option>
+                <option value="false">Inactive</option>
+            </select>
+        </div>
+
+        <div class="col-md-2 d-flex align-items-end">
+            <button type="submit" class="btn btn-dark me-2">Search</button>
+            <a asp-area="Catalog" asp-controller="Books" asp-action="Index" class="btn btn-outline-secondary">Reset</a>
+        </div>
+    </form>
+
     <table class="table table-bordered table-striped mt-3">
         <thead class="table-light">
             <tr>
@@ -28,41 +57,51 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var book in Model)
+            @if (Model.Books.Any())
+            {
+                @* @foreach (var book in Model) *@
+                @foreach (var book in Model.Books)
+                {
+                    <tr>
+                        <td>@book.Id</td>
+                        <td>@book.Title</td>
+                        <td>@book.Author</td>
+                        <td>@book.Category?.Name</td>
+                        <td>$@book.Price</td>
+                        <td>@book.StockQuantity</td>
+                        <td>
+                            @if (book.IsActive)
+                            {
+                                <span class="badge bg-success">Active</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Inactive</span>
+                            }
+                        </td>
+                        <td>
+                            <a asp-area="Catalog" asp-controller="Books" asp-action="Edit" asp-route-id="@book.Id"
+                                   class="btn btn-sm btn-warning">
+                                Edit
+                            </a>
+                            @if (book.IsActive)
+                            {
+                                <form asp-area="Catalog" asp-controller="Books" asp-action="Deactivate" asp-route-id="@book.Id"
+                                      method="post" class="d-inline"
+                                      onsubmit="return confirm('Are you sure you want to deactivate this book?');">
+                                    <button type="submit" class="btn btn-sm btn-danger">
+                                        Deactivate
+                                    </button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+            else
             {
                 <tr>
-                    <td>@book.Id</td>
-                    <td>@book.Title</td>
-                    <td>@book.Author</td>
-                    <td>@book.Category?.Name</td>
-                    <td>$@book.Price</td>
-                    <td>@book.StockQuantity</td>
-                    <td>
-                        @if (book.IsActive)
-                        {
-                            <span class="badge bg-success">Active</span>
-                        }
-                        else
-                        {
-                            <span class="badge bg-secondary">Inactive</span>
-                        }
-                    </td>
-                    <td>
-                        <a asp-area="Catalog" asp-controller="Books" asp-action="Edit" asp-route-id="@book.Id"
-                               class="btn btn-sm btn-warning">
-                            Edit
-                        </a>
-                        @if (book.IsActive)
-                        {
-                            <form asp-area="Catalog" asp-controller="Books" asp-action="Deactivate" asp-route-id="@book.Id"
-                                  method="post" class="d-inline"
-                                  onsubmit="return confirm('Are you sure you want to deactivate this book?');">
-                                <button type="submit" class="btn btn-sm btn-danger">
-                                    Deactivate
-                                </button>
-                            </form>
-                        }
-                    </td>
+                    <td colspan="8" class="text-center text-muted">No books found.</td>
                 </tr>
             }
         </tbody>

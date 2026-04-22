@@ -41,5 +41,10 @@ namespace Bookstore.Module.Catalog.Services
         {
             _bookRepository.Deactivate(id);
         }
+
+        public List<Book> GetFilteredBooks(string? keyword, int? categoryId, bool? isActive)
+        {
+            return _bookRepository.GetFiltered(keyword, categoryId, isActive);
+        }
     }
 }

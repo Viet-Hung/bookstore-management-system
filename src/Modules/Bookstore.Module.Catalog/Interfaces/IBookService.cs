@@ -5,6 +5,7 @@ namespace Bookstore.Module.Catalog.Interfaces
     public interface IBookService
     {
         List<Book> GetAllBooks();
+        List<Book> GetFilteredBooks(string? keyword, int? categoryId, bool? isActive);
         List<Category> GetCategories();
         void CreateBook(Book book);
         Book? GetById(int id);

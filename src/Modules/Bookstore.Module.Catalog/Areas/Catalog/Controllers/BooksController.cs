@@ -16,7 +16,8 @@ namespace Bookstore.Module.Catalog.Areas.Catalog.Controllers
         {
             _bookService = bookService;
         }
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult Index(string? keyword, int? categoryId, bool? isActive)
         {
             // var books = new List<Book>
             // {
@@ -51,9 +52,27 @@ namespace Bookstore.Module.Catalog.Areas.Catalog.Controllers
             //         IsActive = true
             //     }
             // };
-            var books = _bookService.GetAllBooks();
+            // var books = _bookService.GetAllBooks();
+            var books = _bookService.GetFilteredBooks(keyword, categoryId, isActive);
+            var categories = _bookService.GetCategories();
 
-            return View(books);
+            var model = new BookListViewModel
+            {
+                Books = books,
+                Filter = new BookFilterViewModel
+                {
+                    Keyword = keyword,
+                    CategoryId = categoryId,
+                    IsActive = isActive,
+                    Categories = categories.Select(c => new SelectListItem
+                    {
+                        Value = c.Id.ToString(),
+                        Text = c.Name
+                    }).ToList()
+                }
+            };
+
+            return View(model);
         }
 
         [HttpGet]

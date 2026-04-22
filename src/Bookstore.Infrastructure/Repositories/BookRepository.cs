@@ -58,5 +58,35 @@ namespace Bookstore.Infrastructure.Repositories
             book.IsActive = false;
             _context.SaveChanges();
         }
+
+        public List<Book> GetFiltered(string? keyword, int? categoryId, bool? isActive)
+        {
+            var query = _context.Books
+                .Include(x => x.Category)
+                .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(keyword))
+            {
+                var normalizedKeyword = keyword.Trim().ToLower();
+
+                query = query.Where(x =>
+                    x.Title.ToLower().Contains(normalizedKeyword) ||
+                    x.Author.ToLower().Contains(normalizedKeyword));
+            }
+
+            if (categoryId.HasValue && categoryId.Value > 0)
+            {
+                query = query.Where(x => x.CategoryId == categoryId.Value);
+            }
+
+            if (isActive.HasValue)
+            {
+                query = query.Where(x => x.IsActive == isActive.Value);
+            }
+
+            return query
+                .OrderBy(x => x.Id)
+                .ToList();
+        }
     }
 }
