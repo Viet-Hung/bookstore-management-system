@@ -11,7 +11,8 @@
         <a href="#" class="btn btn-primary disabled">Add New Book</a>
     </div>
 
-    <p class="text-muted">Catalog management module - sample book list.</p>
+    @* <p class="text-muted">Catalog management module - sample book list.</p> *@
+    <p class="text-muted">Catalog management module - data loaded from SQL Server.</p>
 
     <table class="table table-bordered table-striped mt-3">
         <thead class="table-light">
@@ -19,6 +20,7 @@
                 <th>Id</th>
                 <th>Title</th>
                 <th>Author</th>
+                <th>Category</th>
                 <th>Price</th>
                 <th>Stock Quantity</th>
                 <th>Status</th>
@@ -31,6 +33,7 @@
                     <td>@book.Id</td>
                     <td>@book.Title</td>
                     <td>@book.Author</td>
+                    <td>@book.Category?.Name</td>
                     <td>$@book.Price</td>
                     <td>@book.StockQuantity</td>
                     <td>
