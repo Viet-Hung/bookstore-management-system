@@ -1,6 +1,9 @@
 // using Bookstore.Module.Catalog.Models;
 using Bookstore.Module.Catalog.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Bookstore.Module.Catalog.Models;
+using Bookstore.Module.Catalog.ViewModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Bookstore.Module.Catalog.Areas.Catalog.Controllers
 {
@@ -51,6 +54,53 @@ namespace Bookstore.Module.Catalog.Areas.Catalog.Controllers
             var books = _bookService.GetAllBooks();
 
             return View(books);
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            var categories = _bookService.GetCategories();
+
+            var viewModel = new CreateBookViewModel
+            {
+                Categories = categories.Select(c => new SelectListItem
+                {
+                    Value = c.Id.ToString(),
+                    Text = c.Name
+                }).ToList()
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Create(CreateBookViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                model.Categories = _bookService.GetCategories()
+                    .Select(c => new SelectListItem
+                    {
+                        Value = c.Id.ToString(),
+                        Text = c.Name
+                    }).ToList();
+
+                return View(model);
+            }
+
+            var book = new Book
+            {
+                Title = model.Title,
+                Author = model.Author,
+                Price = model.Price,
+                StockQuantity = model.StockQuantity,
+                CategoryId = model.CategoryId,
+                IsActive = model.IsActive
+            };
+
+            _bookService.CreateBook(book);
+
+            return RedirectToAction("Index");
         }
     }
 }

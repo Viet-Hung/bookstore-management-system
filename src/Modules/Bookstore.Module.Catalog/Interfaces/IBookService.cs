@@ -5,5 +5,7 @@ namespace Bookstore.Module.Catalog.Interfaces
     public interface IBookService
     {
         List<Book> GetAllBooks();
+        List<Category> GetCategories();
+        void CreateBook(Book book);
     }
 }

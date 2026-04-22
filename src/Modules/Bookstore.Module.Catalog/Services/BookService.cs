@@ -16,5 +16,15 @@ namespace Bookstore.Module.Catalog.Services
         {
             return _bookRepository.GetAll();
         }
+
+        public List<Category> GetCategories()
+        {
+            return _bookRepository.GetCategories();
+        }
+
+        public void CreateBook(Book book)
+        {
+            _bookRepository.Add(book);
+        }
     }
 }
