@@ -141,4 +141,42 @@
             }
         </tbody>
     </table>
+
+    <div class="text-muted mt-3">
+        Showing @Model.Books.Count item(s) on page @Model.Pagination.CurrentPage of @Model.Pagination.TotalPages
+    </div>
+
+    @if (Model.Pagination.TotalPages > 1)
+    {
+        <nav aria-label="Books pagination" class="mt-4">
+            <ul class="pagination">
+                <li class="page-item @(Model.Pagination.CurrentPage == 1 ? "disabled" : "")">
+                    <a class="page-link" asp-area="Catalog" asp-controller="Books" asp-action="Index"
+                           asp-route-keyword="@Model.Filter.Keyword" asp-route-categoryId="@Model.Filter.CategoryId"
+                           asp-route-isActive="@Model.Filter.IsActive" asp-route-page="@(Model.Pagination.CurrentPage - 1)">
+                        Previous
+                    </a>
+                </li>
+
+                @for (int i = 1; i <= Model.Pagination.TotalPages; i++)
+                {
+                    <li class="page-item @(i == Model.Pagination.CurrentPage ? "active" : "")">
+                        <a class="page-link" asp-area="Catalog" asp-controller="Books" asp-action="Index"
+                               asp-route-keyword="@Model.Filter.Keyword" asp-route-categoryId="@Model.Filter.CategoryId"
+                               asp-route-isActive="@Model.Filter.IsActive" asp-route-page="@i">
+                            @i
+                        </a>
+                    </li>
+                }
+
+                <li class="page-item @(Model.Pagination.CurrentPage == Model.Pagination.TotalPages ? "disabled" : "")">
+                    <a class="page-link" asp-area="Catalog" asp-controller="Books" asp-action="Index"
+                           asp-route-keyword="@Model.Filter.Keyword" asp-route-categoryId="@Model.Filter.CategoryId"
+                           asp-route-isActive="@Model.Filter.IsActive" asp-route-page="@(Model.Pagination.CurrentPage + 1)">
+                        Next
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    }
 </div>

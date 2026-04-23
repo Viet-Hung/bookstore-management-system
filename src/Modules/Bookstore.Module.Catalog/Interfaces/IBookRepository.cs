@@ -6,6 +6,8 @@ namespace Bookstore.Module.Catalog.Interfaces
     {
         List<Book> GetAll();
         List<Book> GetFiltered(string? keyword, int? categoryId, bool? isActive);
+        List<Book> GetPagedFiltered(string? keyword, int? categoryId, bool? isActive, int page, int pageSize);
+        int CountFiltered(string? keyword, int? categoryId, bool? isActive);
         List<Category> GetCategories();
         void Add(Book book);
         Book? GetById(int id);

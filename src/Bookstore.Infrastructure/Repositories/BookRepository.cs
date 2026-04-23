@@ -59,7 +59,7 @@ namespace Bookstore.Infrastructure.Repositories
             _context.SaveChanges();
         }
 
-        public List<Book> GetFiltered(string? keyword, int? categoryId, bool? isActive)
+        private IQueryable<Book> BuildFilteredQuery(string? keyword, int? categoryId, bool? isActive)
         {
             var query = _context.Books
                 .Include(x => x.Category)
@@ -84,9 +84,30 @@ namespace Bookstore.Infrastructure.Repositories
                 query = query.Where(x => x.IsActive == isActive.Value);
             }
 
-            return query
+            return query;
+        }
+
+        public List<Book> GetFiltered(string? keyword, int? categoryId, bool? isActive)
+        {
+            // 
+
+            return BuildFilteredQuery(keyword, categoryId, isActive)
                 .OrderBy(x => x.Id)
                 .ToList();
+        }
+
+        public List<Book> GetPagedFiltered(string? keyword, int? categoryId, bool? isActive, int page, int pageSize)
+        {
+            return BuildFilteredQuery(keyword, categoryId, isActive)
+                .OrderBy(x => x.Id)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+        }
+
+        public int CountFiltered(string? keyword, int? categoryId, bool? isActive)
+        {
+            return BuildFilteredQuery(keyword, categoryId, isActive).Count();
         }
     }
 }

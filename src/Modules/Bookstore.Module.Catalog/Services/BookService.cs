@@ -46,5 +46,15 @@ namespace Bookstore.Module.Catalog.Services
         {
             return _bookRepository.GetFiltered(keyword, categoryId, isActive);
         }
+
+        public List<Book> GetPagedFilteredBooks(string? keyword, int? categoryId, bool? isActive, int page, int pageSize)
+        {
+            return _bookRepository.GetPagedFiltered(keyword, categoryId, isActive, page, pageSize);
+        }
+
+        public int CountFilteredBooks(string? keyword, int? categoryId, bool? isActive)
+        {
+            return _bookRepository.CountFiltered(keyword, categoryId, isActive);
+        }
     }
 }

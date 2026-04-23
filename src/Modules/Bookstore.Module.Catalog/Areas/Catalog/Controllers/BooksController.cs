@@ -17,7 +17,8 @@ namespace Bookstore.Module.Catalog.Areas.Catalog.Controllers
             _bookService = bookService;
         }
         [HttpGet]
-        public IActionResult Index(string? keyword, int? categoryId, bool? isActive)
+        // public IActionResult Index(string? keyword, int? categoryId, bool? isActive)
+        public IActionResult Index(string? keyword, int? categoryId, bool? isActive, int page = 1)
         {
             // var books = new List<Book>
             // {
@@ -53,7 +54,11 @@ namespace Bookstore.Module.Catalog.Areas.Catalog.Controllers
             //     }
             // };
             // var books = _bookService.GetAllBooks();
-            var books = _bookService.GetFilteredBooks(keyword, categoryId, isActive);
+            // var books = _bookService.GetFilteredBooks(keyword, categoryId, isActive);
+            const int pageSize = 5;
+
+            var totalItems = _bookService.CountFilteredBooks(keyword, categoryId, isActive);
+            var books = _bookService.GetPagedFilteredBooks(keyword, categoryId, isActive, page, pageSize);
             var categories = _bookService.GetCategories();
 
             var model = new BookListViewModel
@@ -69,6 +74,12 @@ namespace Bookstore.Module.Catalog.Areas.Catalog.Controllers
                         Value = c.Id.ToString(),
                         Text = c.Name
                     }).ToList()
+                },
+                Pagination = new PaginationViewModel
+                {
+                    CurrentPage = page,
+                    PageSize = pageSize,
+                    TotalItems = totalItems
                 }
             };
 
