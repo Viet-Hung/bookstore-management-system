@@ -1,63 +1,96 @@
-# Bookstore-management-system
+# Bookstore Management System (.NET Modular MVC)
 
-Modular ASP.NET Core MVC bookstore management system demonstrating clean architecture, layered design, and real-world backend practices.
+A modular ASP.NET Core MVC application that demonstrates:
 
-The project implements a complete flow from UI → Service → Repository → Database using Entity Framework Core and SQL Server.
+- Clean separation between modules (Catalog, Orders)
+- Real-world business logic (order processing with stock validation)
+- Unit testing with mocks (no database dependency)
 
-## Features
+---
 
-### Catalog Management
+## 🚀 Tech Stack
 
-- View list of books
-- Create new book with form validation
-- Category-based organization
+- ASP.NET Core MVC (.NET 8)
+- Entity Framework Core (SQL Server)
+- Razor Class Library (modular UI)
+- xUnit + Moq + FluentAssertions (Unit Testing)
 
-### Validation
+---
 
-- Server-side validation using Data Annotations
-- Client-side validation using jQuery Unobtrusive Validation
-- Proper error handling and user feedback
+## 🧱 Architecture
 
-### Architecture
+```text
+Modules (Catalog, Orders)
+        ↓
+Infrastructure (DbContext, Repositories)
+        ↓
+WebHost (MVC UI)
+```
 
-- Layered architecture (Controller → Service → Repository)
-- Separation of concerns
-- Dependency Injection
+- **Modules**: business logic & domain models (no dependency on Infrastructure)
+- **Infrastructure**: EF Core, data access
+- **WebHost**: UI, routing, DI
 
-### Database
+---
 
-- Entity Framework Core (Code First)
-- SQL Server integration
-- Migrations and data seeding
+## 📦 Features
 
-## Project Structure
+### Catalog
 
-src/
+- Manage Books (CRUD)
+- Manage Categories (CRUD)
+- Soft delete via `IsActive`
 
-- Bookstore.WebHost → ASP.NET Core MVC (UI layer)
-- Bookstore.Infrastructure → EF Core, DbContext, Repository implementations
-- Modules/
-  - Bookstore.Module.Core → Shared UI components
-  - Bookstore.Module.Catalog → Book & Category domain logic
-  - Bookstore.Module.Orders → (in progress)
-  - Bookstore.Module.Users → (in progress)
+### Orders
 
-## How to Run
+- Create order with stock validation
+- Prevent ordering inactive/out-of-stock books
+- Cancel order → restore stock
 
-1. Clone the repository
-2. Update connection string in `appsettings.json`
-3. Run database migration:
+---
 
-   dotnet ef database update --project src/Bookstore.Infrastructure --startup-project src/Bookstore.WebHost
+## 🧠 Business Rules (Highlights)
 
-4. Run the application:
+- Cannot create order if stock is insufficient
+- Cannot create order for inactive books
+- Cancelling an order restores stock
+- Order total is calculated from items (Quantity × UnitPrice)
 
-   dotnet run --project src/Bookstore.WebHost
+---
 
-## Key Highlights
+## 🧪 Unit Tests
 
-- Clean separation between layers (Controller, Service, Repository)
-- Modular architecture with feature-based modules
-- Real database integration (not in-memory)
-- Form validation (client + server)
-- Production-style project structure
+- Focused on testing business logic in `OrderService`
+- Used **Moq** to mock repositories (no real database)
+- Ensured:
+  - Stock decreases when an order is created
+  - Order is not created when stock is insufficient
+  - Stock is restored when the order is cancelled
+  - Cannot cancel an already cancelled order
+- Covered:
+  - Create success → stock decreases
+  - Create fail → no DB write
+  - Cancel → stock restored
+  - Cancel twice → fail
+
+Run tests:
+
+```bash
+dotnet test
+```
+
+## ▶️ How to Run
+
+```bash
+dotnet ef database update --project src/Bookstore.Infrastructure --startup-project src/Bookstore.WebHost
+dotnet run --project src/Bookstore.WebHost
+```
+
+## 🎯 Why This Project
+
+This project demonstrates my ability to:
+
+- Design modular architecture in .NET
+- Implement real business rules beyond CRUD
+- Write unit tests to ensure code reliability
+- Work with Entity Framework Core and dependency injection
