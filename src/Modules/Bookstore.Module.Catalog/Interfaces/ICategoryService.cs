@@ -9,4 +9,5 @@ public interface ICategoryService
     bool Create(Category category);
     bool Update(Category category);
     bool Deactivate(int id);
+    List<Category> GetActive();
 }

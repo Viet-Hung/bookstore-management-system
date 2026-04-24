@@ -127,7 +127,8 @@
                                 <form asp-area="Catalog" asp-controller="Books" asp-action="Deactivate" asp-route-id="@book.Id"
                                       method="post" class="d-inline"
                                       onsubmit="return confirm('Are you sure you want to deactivate this book?');">
-                                    <button type="submit" class="btn btn-sm btn-danger">
+                                    <button type="submit" class="btn btn-sm btn-danger"
+                                            onclick="return confirm('Are you sure you want to deactivate this book?');">
                                         Deactivate
                                     </button>
                                 </form>

@@ -17,13 +17,15 @@ public class CategoriesController : Controller
 
     public IActionResult Index()
     {
-        var categories = _categoryService.GetAll();
+        // var categories = _categoryService.GetAll();
+        var categories = _categoryService.GetActive();
         return View(categories);
     }
 
     public IActionResult IndexNew()
     {
-        var categories = _categoryService.GetAll();
+        // var categories = _categoryService.GetAll();
+        var categories = _categoryService.GetActive();
         return View("Index.updated", categories);
     }
 

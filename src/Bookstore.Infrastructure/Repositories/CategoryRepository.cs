@@ -48,4 +48,12 @@ public class CategoryRepository : ICategoryRepository
         _context.Categories.Update(category);
         _context.SaveChanges();
     }
+
+    public List<Category> GetActive()
+    {
+        return _context.Categories
+            .Where(x => x.IsActive)
+            .OrderBy(x => x.Name)
+            .ToList();
+    }
 }

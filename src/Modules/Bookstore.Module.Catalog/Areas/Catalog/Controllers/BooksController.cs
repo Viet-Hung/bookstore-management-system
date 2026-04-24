@@ -125,6 +125,8 @@ namespace Bookstore.Module.Catalog.Areas.Catalog.Controllers
                         Text = c.Name
                     }).ToList();
 
+                TempData["ErrorMessage"] = "Book was not created.";
+
                 return View(model);
             }
 
@@ -139,6 +141,8 @@ namespace Bookstore.Module.Catalog.Areas.Catalog.Controllers
             };
 
             _bookService.CreateBook(book);
+
+            TempData["SuccessMessage"] = "Book created successfully.";
 
             return RedirectToAction("Index");
         }
@@ -188,7 +192,10 @@ namespace Bookstore.Module.Catalog.Areas.Catalog.Controllers
 
             var book = _bookService.GetById(model.Id);
             if (book == null)
+            {
+                TempData["ErrorMessage"] = "Book was not found.";
                 return NotFound();
+            }
 
             book.Title = model.Title;
             book.Author = model.Author;
@@ -199,6 +206,8 @@ namespace Bookstore.Module.Catalog.Areas.Catalog.Controllers
 
             _bookService.UpdateBook(book);
 
+            TempData["SuccessMessage"] = "Book updated successfully.";
+
             return RedirectToAction("Index");
         }
 
@@ -208,10 +217,13 @@ namespace Bookstore.Module.Catalog.Areas.Catalog.Controllers
             var book = _bookService.GetById(id);
             if (book == null)
             {
+                TempData["ErrorMessage"] = "Book was not found.";
                 return NotFound();
             }
 
             _bookService.DeactivateBook(id);
+
+            TempData["SuccessMessage"] = "Book deactivated successfully.";
 
             return RedirectToAction("Index");
         }

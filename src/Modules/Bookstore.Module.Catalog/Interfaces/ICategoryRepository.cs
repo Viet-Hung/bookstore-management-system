@@ -10,4 +10,5 @@ public interface ICategoryRepository
     bool HasBooks(int categoryId);
     void Add(Category category);
     void Update(Category category);
+    List<Category> GetActive();
 }

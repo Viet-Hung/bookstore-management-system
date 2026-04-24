@@ -75,4 +75,9 @@ public class CategoryService : ICategoryService
 
         return true;
     }
+
+    public List<Category> GetActive()
+    {
+        return _categoryRepository.GetActive();
+    }
 }
