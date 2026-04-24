@@ -1,10 +1,13 @@
+using Microsoft.EntityFrameworkCore;
 using Bookstore.Infrastructure.Data;
 using Bookstore.Infrastructure.Repositories;
 using Bookstore.Module.Catalog.Areas.Catalog.Controllers;
 using Bookstore.Module.Catalog.Interfaces;
 using Bookstore.Module.Catalog.Services;
 using Bookstore.Module.Core.Areas.Core.Controllers;
-using Microsoft.EntityFrameworkCore;
+using Bookstore.Module.Orders.Areas.Orders.Controllers;
+using Bookstore.Module.Orders.Interfaces;
+using Bookstore.Module.Orders.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,11 +18,14 @@ builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews()
                 .AddApplicationPart(typeof(HomeController).Assembly)
-                .AddApplicationPart(typeof(BooksController).Assembly);
+                .AddApplicationPart(typeof(BooksController).Assembly)
+                .AddApplicationPart(typeof(OrdersController).Assembly);
 
 var app = builder.Build();
 

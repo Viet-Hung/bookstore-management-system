@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Modules\Bookstore.Module.Catalog\Bookstore.Module.Catalog.csproj" />
+    <ProjectReference Include="..\Modules\Bookstore.Module.Orders\Bookstore.Module.Orders.csproj" />
   </ItemGroup>
 
   <!-- <ItemGroup>

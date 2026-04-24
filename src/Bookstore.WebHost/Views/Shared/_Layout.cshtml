@@ -63,7 +63,11 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-muted" href="#">Orders</a>
+                            @* <a class="nav-link text-muted" href="#">Orders</a> *@
+                            <a class="nav-link text-dark @(currentArea == "Orders" && currentController == "Orders" ? "active fw-bold" : "")"
+                                   asp-area="Orders" asp-controller="Orders" asp-action="Index">
+                                Orders
+                            </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-muted" href="#">Users</a>

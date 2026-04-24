@@ -1,13 +1,22 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Bookstore.Infrastructure\Bookstore.Infrastructure.csproj" />
-  </ItemGroup>
+  <!-- <ItemGroup>
+    <ProjectReference Include="..\Bookstore.Module.Catalog\Bookstore.Module.Catalog.csproj" />
+  </ItemGroup> -->
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Bookstore.Module.Catalog\Bookstore.Module.Catalog.csproj" />
+  </ItemGroup>
 
 </Project>

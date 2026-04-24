@@ -1,5 +1,6 @@
-using Bookstore.Module.Catalog.Models;
 using Microsoft.EntityFrameworkCore;
+using Bookstore.Module.Catalog.Models;
+using Bookstore.Module.Orders.Models;
 
 namespace Bookstore.Infrastructure.Data
 {
@@ -12,6 +13,8 @@ namespace Bookstore.Infrastructure.Data
 
         public DbSet<Book> Books => Set<Book>();
         public DbSet<Category> Categories => Set<Category>();
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -56,6 +59,35 @@ namespace Bookstore.Infrastructure.Data
                 entity.HasOne(x => x.Category)
                     .WithMany(x => x.Books)
                     .HasForeignKey(x => x.CategoryId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            modelBuilder.Entity<Order>(entity =>
+{
+    entity.HasKey(x => x.Id);
+
+    entity.Property(x => x.TotalAmount)
+        .HasColumnType("decimal(18,2)");
+
+    entity.Property(x => x.Status)
+        .HasConversion<int>();
+
+    entity.HasMany(x => x.Items)
+        .WithOne(x => x.Order)
+        .HasForeignKey(x => x.OrderId)
+        .OnDelete(DeleteBehavior.Cascade);
+});
+
+            modelBuilder.Entity<OrderItem>(entity =>
+            {
+                entity.HasKey(x => x.Id);
+
+                entity.Property(x => x.UnitPrice)
+                    .HasColumnType("decimal(18,2)");
+
+                entity.HasOne(x => x.Book)
+                    .WithMany()
+                    .HasForeignKey(x => x.BookId)
                     .OnDelete(DeleteBehavior.Restrict);
             });
         }
