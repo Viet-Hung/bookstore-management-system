@@ -1,42 +1,112 @@
 @model Bookstore.Module.Orders.ViewModels.CreateOrderViewModel
 
+
+
 @{
+
     ViewData["Title"] = "Create Order";
+
 }
 
-<div class="container mt-4">
-    <h1>Create Order</h1>
 
-    <form asp-area="Orders" asp-controller="Orders" asp-action="Create" method="post">
-        @Html.AntiForgeryToken()
 
-        <div class="mb-3">
-            <label class="form-label">Book</label>
-            <select asp-for="Items[0].BookId" class="form-select">
-                <option value="">-- Select book --</option>
-                @foreach (var book in Model.AvailableBooks)
-                {
-                    <option value="@book.Id">
-                        @book.Title - Stock: @book.StockQuantity - Price: @book.Price
-                    </option>
-                }
-            </select>
-            <span asp-validation-for="Items[0].BookId" class="text-danger"></span>
+<div class="container page-container">
+
+    <div class="page-header">
+
+        <div>
+
+            <h1 class="page-title">Create Order</h1>
+
+            <p class="page-subtitle">Place a new order by selecting a book and quantity.</p>
+
         </div>
 
-        <div class="mb-3">
-            <label class="form-label">Quantity</label>
-            <input asp-for="Items[0].Quantity" class="form-control" />
-            <span asp-validation-for="Items[0].Quantity" class="text-danger"></span>
+        <div class="page-actions">
+
+            <a asp-area="Orders" asp-controller="Orders" asp-action="Index" class="btn btn-outline-secondary">
+
+                <i class="bi bi-arrow-left me-1"></i> Back
+
+            </a>
+
         </div>
 
-        <button type="submit" class="btn btn-primary">Create Order</button>
-        <a asp-area="Orders" asp-controller="Orders" asp-action="Index" class="btn btn-secondary">
-            Back
-        </a>
-    </form>
+    </div>
+
+
+
+    <div class="form-panel">
+
+        <form asp-area="Orders" asp-controller="Orders" asp-action="Create" method="post">
+
+            @Html.AntiForgeryToken()
+
+
+
+            <div class="mb-3">
+
+                <label class="form-label">Book</label>
+
+                <select asp-for="Items[0].BookId" class="form-select">
+
+                    <option value="">Select book</option>
+
+                    @foreach (var book in Model.AvailableBooks)
+
+                    {
+
+                        <option value="@book.Id">
+
+                            @book.Title — Stock: @book.StockQuantity — @book.Price.ToString("C")
+
+                        </option>
+
+                    }
+
+                </select>
+
+                <span asp-validation-for="Items[0].BookId" class="text-danger small"></span>
+
+            </div>
+
+
+
+            <div class="mb-0">
+
+                <label class="form-label">Quantity</label>
+
+                <input asp-for="Items[0].Quantity" class="form-control" type="number" min="1" />
+
+                <span asp-validation-for="Items[0].Quantity" class="text-danger small"></span>
+
+            </div>
+
+
+
+            <div class="form-actions">
+
+                <button type="submit" class="btn btn-primary">
+
+                    <i class="bi bi-cart-plus me-1"></i> Create Order
+
+                </button>
+
+                <a asp-area="Orders" asp-controller="Orders" asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+
+            </div>
+
+        </form>
+
+    </div>
+
 </div>
 
+
+
 @section Scripts {
+
     <partial name="_ValidationScriptsPartial" />
+
 }
+

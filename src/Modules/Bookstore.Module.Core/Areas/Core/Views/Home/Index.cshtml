@@ -1,22 +1,76 @@
 @{
+
     ViewData["Title"] = "Home";
+
     Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 
-<div class="container mt-5">
-    <div class="text-center">
-        <h1 class="display-4 fw-bold">Bookstore Management System</h1>
-        <p class="lead mt-3">
-            Welcome to the modular ASP.NET Core MVC bookstore project.
-        </p>
-        <p class="text-muted">
-            This system is designed to manage books, orders, and users with a modular architecture.
+
+
+<div class="container page-container">
+
+    <section class="hero-section">
+
+        <i class="bi bi-book-half hero-icon"></i>
+
+        <h1>Bookstore Management System</h1>
+
+        <p class="lead">
+
+            Manage your catalog, orders, and inventory in one modular ASP.NET Core application.
+
         </p>
 
-        <div class="mt-4">
-            <a asp-area="Core" asp-controller="Dashboard" asp-action="Index" class="btn btn-dark btn-lg">
-                Go to Dashboard
-            </a>
+        <p class="text-muted-hero">
+
+            Built with a clean modular architecture for books, categories, and sales.
+
+        </p>
+
+        <a asp-area="Core" asp-controller="Dashboard" asp-action="Index" class="btn btn-hero btn-lg">
+
+            <i class="bi bi-grid-1x2 me-2"></i>Go to Dashboard
+
+        </a>
+
+    </section>
+
+
+
+    <div class="feature-grid">
+
+        <div class="feature-item">
+
+            <i class="bi bi-journal-text d-block"></i>
+
+            <h6>Catalog</h6>
+
+            <p>Books, authors, categories &amp; stock</p>
+
         </div>
+
+        <div class="feature-item">
+
+            <i class="bi bi-cart3 d-block"></i>
+
+            <h6>Orders</h6>
+
+            <p>Create and track customer orders</p>
+
+        </div>
+
+        <div class="feature-item">
+
+            <i class="bi bi-bar-chart d-block"></i>
+
+            <h6>Dashboard</h6>
+
+            <p>Quick access to all modules</p>
+
+        </div>
+
     </div>
+
 </div>
+

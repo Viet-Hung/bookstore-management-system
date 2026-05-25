@@ -1,45 +1,132 @@
 @model Bookstore.Module.Orders.Models.Order
 
+@using Bookstore.Module.Orders.Models
+
+
+
 @{
+
     ViewData["Title"] = "Order Details";
+
+    string statusBadgeClass = Model.Status switch
+
+    {
+
+        OrderStatus.Pending => "badge-order-pending",
+
+        OrderStatus.Completed => "badge-order-completed",
+
+        OrderStatus.Cancelled => "badge-order-cancelled",
+
+        _ => "bg-secondary"
+
+    };
+
 }
 
-<div class="container mt-4">
-    <h1>Order Details</h1>
 
-    <div class="card mb-3">
-        <div class="card-body">
-            <p><strong>Order Date:</strong> @Model.OrderDate.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</p>
-            <p><strong>Status:</strong> @Model.Status</p>
-            <p><strong>Total:</strong> @Model.TotalAmount.ToString("C")</p>
+
+<div class="container page-container">
+
+    <div class="page-header">
+
+        <div>
+
+            <h1 class="page-title">Order #@Model.Id</h1>
+
+            <p class="page-subtitle">Order placed @Model.OrderDate.ToLocalTime().ToString("MMMM d, yyyy 'at' HH:mm")</p>
+
         </div>
+
+        <div class="page-actions">
+
+            <a asp-area="Orders" asp-controller="Orders" asp-action="Index" class="btn btn-outline-secondary">
+
+                <i class="bi bi-arrow-left me-1"></i> Back to orders
+
+            </a>
+
+        </div>
+
     </div>
 
-    <h3>Items</h3>
 
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Book</th>
-                <th>Quantity</th>
-                <th>Unit Price</th>
-                <th>Line Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Items)
-            {
-                <tr>
-                    <td>@item.Book?.Title</td>
-                    <td>@item.Quantity</td>
-                    <td>@item.UnitPrice.ToString("C")</td>
-                    <td>@((item.Quantity * item.UnitPrice).ToString("C"))</td>
-                </tr>
-            }
-        </tbody>
-    </table>
 
-    <a asp-area="Orders" asp-controller="Orders" asp-action="Index" class="btn btn-secondary">
-        Back
-    </a>
+    <div class="detail-card">
+
+        <div class="detail-row">
+
+            <span class="detail-label">Status</span>
+
+            <span class="badge rounded-pill @statusBadgeClass">@Model.Status</span>
+
+        </div>
+
+        <div class="detail-row">
+
+            <span class="detail-label">Total</span>
+
+            <span class="fs-5 fw-bold text-primary">@Model.TotalAmount.ToString("C")</span>
+
+        </div>
+
+    </div>
+
+
+
+    <h2 class="h5 fw-bold mb-3">Line items</h2>
+
+
+
+    <div class="content-card mb-4">
+
+        <div class="table-responsive">
+
+            <table class="table table-app">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Book</th>
+
+                        <th>Quantity</th>
+
+                        <th>Unit Price</th>
+
+                        <th>Line Total</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach (var item in Model.Items)
+
+                    {
+
+                        <tr>
+
+                            <td class="fw-semibold">@(item.Book?.Title ?? "—")</td>
+
+                            <td>@item.Quantity</td>
+
+                            <td>@item.UnitPrice.ToString("C")</td>
+
+                            <td class="fw-semibold">@((item.Quantity * item.UnitPrice).ToString("C"))</td>
+
+                        </tr>
+
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
 </div>
+

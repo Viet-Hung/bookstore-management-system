@@ -1,186 +1,398 @@
-@* @model List<Bookstore.Module.Catalog.Models.Book> *@
 @model Bookstore.Module.Catalog.ViewModels.BookListViewModel
 
+
+
 @{
+
     ViewData["Title"] = "Books";
+
     Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h1>Books</h1>
-        @* <a href="#" class="btn btn-primary disabled">Add New Book</a> *@
-        <a asp-area="Catalog" asp-controller="Books" asp-action="Create" class="btn btn-primary">
-            Add New Book
-        </a>
+
+
+<div class="container page-container">
+
+    <div class="page-header">
+
+        <div>
+
+            <h1 class="page-title">Books</h1>
+
+            <p class="page-subtitle">Browse and manage your book catalog.</p>
+
+        </div>
+
+        <div class="page-actions">
+
+            <a asp-area="Catalog" asp-controller="Books" asp-action="Create" class="btn btn-primary">
+
+                <i class="bi bi-plus-lg me-1"></i> Add New Book
+
+            </a>
+
+        </div>
+
     </div>
 
-    @* <p class="text-muted">Catalog management module - sample book list.</p> *@
-    <p class="text-muted">Catalog management module - data loaded from SQL Server.</p>
 
-    <form method="get" asp-area="Catalog" asp-controller="Books" asp-action="Index" class="row g-3 mb-4">
-        <div class="col-md-4">
-            <label class="form-label">Keyword</label>
-            <input name="keyword" value="@Model.Filter.Keyword" class="form-control"
-                   placeholder="Search by title or author" />
-        </div>
 
-        <div class="col-md-3">
-            <label class="form-label">Category</label>
-            <select name="categoryId" class="form-select">
-                <option value="">-- All categories --</option>
-                @foreach (var category in Model.Filter.Categories)
-                {
-                    if (Model.Filter.CategoryId.HasValue && Model.Filter.CategoryId.Value.ToString() == category.Value)
+    <form method="get" asp-area="Catalog" asp-controller="Books" asp-action="Index" class="filter-panel">
+
+        <div class="row g-3">
+
+            <div class="col-md-4">
+
+                <label class="form-label">Keyword</label>
+
+                <input name="keyword" value="@Model.Filter.Keyword" class="form-control"
+
+                       placeholder="Search by title or author" />
+
+            </div>
+
+
+
+            <div class="col-md-3">
+
+                <label class="form-label">Category</label>
+
+                <select name="categoryId" class="form-select">
+
+                    <option value="">All categories</option>
+
+                    @foreach (var category in Model.Filter.Categories)
+
                     {
-                        <option value="@category.Value" selected>@category.Text</option>
+
+                        if (Model.Filter.CategoryId.HasValue && Model.Filter.CategoryId.Value.ToString() == category.Value)
+
+                        {
+
+                            <option value="@category.Value" selected>@category.Text</option>
+
+                        }
+
+                        else
+
+                        {
+
+                            <option value="@category.Value">@category.Text</option>
+
+                        }
+
                     }
+
+                </select>
+
+            </div>
+
+
+
+            <div class="col-md-3">
+
+                <label class="form-label">Status</label>
+
+                <select name="isActive" class="form-select">
+
+                    @if (Model.Filter.IsActive == null)
+
+                    {
+
+                        <option value="" selected>All statuses</option>
+
+                    }
+
                     else
+
                     {
-                        <option value="@category.Value">@category.Text</option>
+
+                        <option value="">All statuses</option>
+
                     }
-                }
-            </select>
+
+
+
+                    @if (Model.Filter.IsActive == true)
+
+                    {
+
+                        <option value="true" selected>Active</option>
+
+                    }
+
+                    else
+
+                    {
+
+                        <option value="true">Active</option>
+
+                    }
+
+
+
+                    @if (Model.Filter.IsActive == false)
+
+                    {
+
+                        <option value="false" selected>Inactive</option>
+
+                    }
+
+                    else
+
+                    {
+
+                        <option value="false">Inactive</option>
+
+                    }
+
+                </select>
+
+            </div>
+
+
+
+            <div class="col-md-2 d-flex align-items-end gap-2">
+
+                <button type="submit" class="btn btn-primary flex-grow-1">
+
+                    <i class="bi bi-search me-1"></i> Search
+
+                </button>
+
+                <a asp-area="Catalog" asp-controller="Books" asp-action="Index" class="btn btn-outline-secondary" title="Reset">
+
+                    <i class="bi bi-arrow-counterclockwise"></i>
+
+                </a>
+
+            </div>
+
         </div>
 
-        <div class="col-md-3">
-            <label class="form-label">Status</label>
-            <select name="isActive" class="form-select">
-                @if (Model.Filter.IsActive == null)
-                {
-                    <option value="" selected>-- All statuses --</option>
-                }
-                else
-                {
-                    <option value="">-- All statuses --</option>
-                }
-
-                @if (Model.Filter.IsActive == true)
-                {
-                    <option value="true" selected>Active</option>
-                }
-                else
-                {
-                    <option value="true">Active</option>
-                }
-
-                @if (Model.Filter.IsActive == false)
-                {
-                    <option value="false" selected>Inactive</option>
-                }
-                else
-                {
-                    <option value="false">Inactive</option>
-                }
-            </select>
-        </div>
-
-        <div class="col-md-2 d-flex align-items-end">
-            <button type="submit" class="btn btn-dark me-2">Search</button>
-            <a asp-area="Catalog" asp-controller="Books" asp-action="Index" class="btn btn-outline-secondary">Reset</a>
-        </div>
     </form>
 
-    <table class="table table-bordered table-striped mt-3">
-        <thead class="table-light">
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Category</th>
-                <th>Price</th>
-                <th>Stock Quantity</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model.Books.Any())
-            {
-                @* @foreach (var book in Model) *@
-                @foreach (var book in Model.Books)
-                {
-                    <tr>
-                        <td>@book.Id</td>
-                        <td>@book.Title</td>
-                        <td>@book.Author</td>
-                        <td>@book.Category?.Name</td>
-                        <td>$@book.Price</td>
-                        <td>@book.StockQuantity</td>
-                        <td>
-                            @if (book.IsActive)
-                            {
-                                <span class="badge bg-success">Active</span>
-                            }
-                            else
-                            {
-                                <span class="badge bg-secondary">Inactive</span>
-                            }
-                        </td>
-                        <td>
-                            <a asp-area="Catalog" asp-controller="Books" asp-action="Edit" asp-route-id="@book.Id"
-                                   class="btn btn-sm btn-warning">
-                                Edit
-                            </a>
-                            @if (book.IsActive)
-                            {
-                                <form asp-area="Catalog" asp-controller="Books" asp-action="Deactivate" asp-route-id="@book.Id"
-                                      method="post" class="d-inline"
-                                      onsubmit="return confirm('Are you sure you want to deactivate this book?');">
-                                    <button type="submit" class="btn btn-sm btn-danger"
-                                            onclick="return confirm('Are you sure you want to deactivate this book?');">
-                                        Deactivate
-                                    </button>
-                                </form>
-                            }
-                        </td>
-                    </tr>
-                }
-            }
-            else
-            {
-                <tr>
-                    <td colspan="8" class="text-center text-muted">No books found.</td>
-                </tr>
-            }
-        </tbody>
-    </table>
 
-    <div class="text-muted mt-3">
-        Showing @Model.Books.Count item(s) on page @Model.Pagination.CurrentPage of @Model.Pagination.TotalPages
+
+    <div class="content-card">
+
+        <div class="table-responsive">
+
+            <table class="table table-app">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Id</th>
+
+                        <th>Title</th>
+
+                        <th>Author</th>
+
+                        <th>Category</th>
+
+                        <th>Price</th>
+
+                        <th>Stock</th>
+
+                        <th>Status</th>
+
+                        <th>Actions</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @if (Model.Books.Any())
+
+                    {
+
+                        @foreach (var book in Model.Books)
+
+                        {
+
+                            <tr>
+
+                                <td><span class="text-muted">#@book.Id</span></td>
+
+                                <td class="fw-semibold">@book.Title</td>
+
+                                <td>@book.Author</td>
+
+                                <td>@(book.Category?.Name ?? "—")</td>
+
+                                <td>$@book.Price.ToString("N2")</td>
+
+                                <td>@book.StockQuantity</td>
+
+                                <td>
+
+                                    @if (book.IsActive)
+
+                                    {
+
+                                        <span class="badge rounded-pill badge-status-active">Active</span>
+
+                                    }
+
+                                    else
+
+                                    {
+
+                                        <span class="badge rounded-pill badge-status-inactive">Inactive</span>
+
+                                    }
+
+                                </td>
+
+                                <td>
+
+                                    <div class="table-actions">
+
+                                        <a asp-area="Catalog" asp-controller="Books" asp-action="Edit" asp-route-id="@book.Id"
+
+                                           class="btn btn-sm btn-outline-primary">
+
+                                            <i class="bi bi-pencil"></i>
+
+                                        </a>
+
+                                        @if (book.IsActive)
+
+                                        {
+
+                                            <form asp-area="Catalog" asp-controller="Books" asp-action="Deactivate" asp-route-id="@book.Id"
+
+                                                  method="post" class="d-inline"
+
+                                                  onsubmit="return confirm('Are you sure you want to deactivate this book?');">
+
+                                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Deactivate">
+
+                                                    <i class="bi bi-slash-circle"></i>
+
+                                                </button>
+
+                                            </form>
+
+                                        }
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        }
+
+                    }
+
+                    else
+
+                    {
+
+                        <tr class="table-empty">
+
+                            <td colspan="8">
+
+                                <i class="bi bi-inbox d-block fs-3 mb-2 text-muted"></i>
+
+                                No books found. Try adjusting your filters or add a new book.
+
+                            </td>
+
+                        </tr>
+
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
     </div>
 
+
+
+    <p class="list-meta">
+
+        Showing @Model.Books.Count item(s) on page @Model.Pagination.CurrentPage of @Model.Pagination.TotalPages
+
+    </p>
+
+
+
     @if (Model.Pagination.TotalPages > 1)
+
     {
-        <nav aria-label="Books pagination" class="mt-4">
-            <ul class="pagination">
+
+        <nav aria-label="Books pagination" class="mt-3">
+
+            <ul class="pagination justify-content-center">
+
                 <li class="page-item @(Model.Pagination.CurrentPage == 1 ? "disabled" : "")">
+
                     <a class="page-link" asp-area="Catalog" asp-controller="Books" asp-action="Index"
-                           asp-route-keyword="@Model.Filter.Keyword" asp-route-categoryId="@Model.Filter.CategoryId"
-                           asp-route-isActive="@Model.Filter.IsActive" asp-route-page="@(Model.Pagination.CurrentPage - 1)">
+
+                       asp-route-keyword="@Model.Filter.Keyword" asp-route-categoryId="@Model.Filter.CategoryId"
+
+                       asp-route-isActive="@Model.Filter.IsActive" asp-route-page="@(Model.Pagination.CurrentPage - 1)">
+
                         Previous
+
                     </a>
+
                 </li>
+
+
 
                 @for (int i = 1; i <= Model.Pagination.TotalPages; i++)
+
                 {
+
                     <li class="page-item @(i == Model.Pagination.CurrentPage ? "active" : "")">
+
                         <a class="page-link" asp-area="Catalog" asp-controller="Books" asp-action="Index"
-                               asp-route-keyword="@Model.Filter.Keyword" asp-route-categoryId="@Model.Filter.CategoryId"
-                               asp-route-isActive="@Model.Filter.IsActive" asp-route-page="@i">
+
+                           asp-route-keyword="@Model.Filter.Keyword" asp-route-categoryId="@Model.Filter.CategoryId"
+
+                           asp-route-isActive="@Model.Filter.IsActive" asp-route-page="@i">
+
                             @i
+
                         </a>
+
                     </li>
+
                 }
 
+
+
                 <li class="page-item @(Model.Pagination.CurrentPage == Model.Pagination.TotalPages ? "disabled" : "")">
+
                     <a class="page-link" asp-area="Catalog" asp-controller="Books" asp-action="Index"
-                           asp-route-keyword="@Model.Filter.Keyword" asp-route-categoryId="@Model.Filter.CategoryId"
-                           asp-route-isActive="@Model.Filter.IsActive" asp-route-page="@(Model.Pagination.CurrentPage + 1)">
+
+                       asp-route-keyword="@Model.Filter.Keyword" asp-route-categoryId="@Model.Filter.CategoryId"
+
+                       asp-route-isActive="@Model.Filter.IsActive" asp-route-page="@(Model.Pagination.CurrentPage + 1)">
+
                         Next
+
                     </a>
+
                 </li>
+
             </ul>
+
         </nav>
+
     }
+
 </div>
+

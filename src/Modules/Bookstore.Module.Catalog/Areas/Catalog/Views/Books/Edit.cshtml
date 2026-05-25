@@ -1,55 +1,148 @@
 @model Bookstore.Module.Catalog.ViewModels.EditBookViewModel
 
+
+
 @{
+
     ViewData["Title"] = "Edit Book";
+
     Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 
-<div class="container mt-4">
-    <h2>Edit Book</h2>
 
-    <form asp-action="Edit" method="post">
-        <input type="hidden" asp-for="Id" />
 
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="container page-container">
 
-        <div class="mb-3">
-            <label asp-for="Title"></label>
-            <input asp-for="Title" class="form-control" />
-            <span asp-validation-for="Title" class="text-danger"></span>
+    <div class="page-header">
+
+        <div>
+
+            <h1 class="page-title">Edit Book</h1>
+
+            <p class="page-subtitle">Update book details for <strong>@Model.Title</strong>.</p>
+
         </div>
 
-        <div class="mb-3">
-            <label asp-for="Author"></label>
-            <input asp-for="Author" class="form-control" />
-            <span asp-validation-for="Author" class="text-danger"></span>
+        <div class="page-actions">
+
+            <a asp-area="Catalog" asp-controller="Books" asp-action="Index" class="btn btn-outline-secondary">
+
+                <i class="bi bi-arrow-left me-1"></i> Back to list
+
+            </a>
+
         </div>
 
-        <div class="mb-3">
-            <label>Category</label>
-            <select asp-for="CategoryId" asp-items="Model.Categories" class="form-control"></select>
-        </div>
+    </div>
 
-        <div class="mb-3">
-            <label asp-for="Price"></label>
-            <input asp-for="Price" class="form-control" />
-        </div>
 
-        <div class="mb-3">
-            <label asp-for="StockQuantity"></label>
-            <input asp-for="StockQuantity" class="form-control" />
-        </div>
 
-        <div class="form-check mb-3">
-            <input asp-for="IsActive" class="form-check-input" />
-            <label asp-for="IsActive"></label>
-        </div>
+    <div class="form-panel">
 
-        <button type="submit" class="btn btn-success">Update</button>
-        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-    </form>
+        <form asp-area="Catalog" asp-controller="Books" asp-action="Edit" method="post">
+
+            <input type="hidden" asp-for="Id" />
+
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2" role="alert"></div>
+
+
+
+            <div class="mb-3">
+
+                <label asp-for="Title" class="form-label"></label>
+
+                <input asp-for="Title" class="form-control" />
+
+                <span asp-validation-for="Title" class="text-danger small"></span>
+
+            </div>
+
+
+
+            <div class="mb-3">
+
+                <label asp-for="Author" class="form-label"></label>
+
+                <input asp-for="Author" class="form-control" />
+
+                <span asp-validation-for="Author" class="text-danger small"></span>
+
+            </div>
+
+
+
+            <div class="mb-3">
+
+                <label asp-for="CategoryId" class="form-label">Category</label>
+
+                <select asp-for="CategoryId" asp-items="Model.Categories" class="form-select"></select>
+
+            </div>
+
+
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="Price" class="form-label"></label>
+
+                    <div class="input-group">
+
+                        <span class="input-group-text">$</span>
+
+                        <input asp-for="Price" class="form-control" />
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="StockQuantity" class="form-label"></label>
+
+                    <input asp-for="StockQuantity" class="form-control" />
+
+                </div>
+
+            </div>
+
+
+
+            <div class="form-check mb-0">
+
+                <input asp-for="IsActive" class="form-check-input" />
+
+                <label asp-for="IsActive" class="form-check-label"></label>
+
+            </div>
+
+
+
+            <div class="form-actions">
+
+                <button type="submit" class="btn btn-primary">
+
+                    <i class="bi bi-check-lg me-1"></i> Update
+
+                </button>
+
+                <a asp-area="Catalog" asp-controller="Books" asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+
+            </div>
+
+        </form>
+
+    </div>
+
 </div>
 
+
+
 @section Scripts {
+
     <partial name="_ValidationScriptsPartial" />
+
 }
+
